@@ -1,0 +1,18 @@
+.maintext {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: "hackman";
+  font-weight: 600;
+  line-height: 1.125;
+  font-size: 1.5rem !important;
+  text-transform: uppercase !important;
+  word-break: unset;
+  overflow-wrap: unset;
+  hyphens: unset;
+  margin-bottom: 1.5rem;
+  color: black;
+}
