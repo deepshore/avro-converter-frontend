@@ -16,29 +16,4 @@ jobs:
         with:
           name: static-files
           path: build/
-
-      # create a pull request with the static files main.* form the js folder and main.* from the css folder 
-      # on the project https://github.com/deepshore/deepshore-website/ based on the main branch and the corresponding folders
-      # themes/deepshore/js/ and themes/deepshore/css/ on the project
-      - uses: actions/checkout@v3
-        with:
-          repository: deepshore/deepshore-website
-          ref: main
-          path: deepshore-website
-      - name: prepare files for pr
-        run: |
-          cp -r build/static/js/main.* deepshore-website/themes/deepshore/js/ 
-          cp -r build/static/css/main.* deepshore-website/themes/deepshore/js/
-      - name: Create Pull Request with static files
-        run: |
-          cd deepshore-website
-          git config --local user.email "optimus.prime@deepshore.de"
-          git config --local user.name "optimus prime"
-          git checkout -b avro-converter-change-${{ github.sha }}
-          git add .
-          git commit -m "update static files"
-          git push origin avro-converter-change-${{ github.sha }}
-          gh pr create --title "avro-converter change" --body "avro-converter change" --reviewer ts-nextevolution --base main --head avro-converter-change-${{ github.sha }}
-
-
       
