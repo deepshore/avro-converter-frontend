@@ -35,7 +35,7 @@ export default function HookForm() {
     reset
   } = useForm();
 
-  const apiUrl = "https://poor-readers-drop-77-20-248-156.loca.lt/xsd2avro";
+  const apiUrl = "http://localhost:8080/xsd2avro";
   const [avroValueSchema, setAvroValueSchema] = useState();
   const [avroValue, setAvroValue] = useState();
   const [avroKeySchema, setAvroKeySchema] = useState();
@@ -47,7 +47,11 @@ export default function HookForm() {
   const [xpathRecordKey, setXpathRecordKey] = useState();
   const [convertError, setConvertError] = useState();
 
-  const { hasCopied, onCopy } = useClipboard(avroValueSchema);
+  const { onCopy, value, setValueOfClipBoard, hasCopied } = useClipboard(avroValueSchema);
+  const clipboardValue = useClipboard(avroValue);
+  const clipboardKeySchema = useClipboard(avroKeySchema);
+  const clipboardKey = useClipboard(avroKey);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   async function onSubmit(values) {
@@ -219,8 +223,8 @@ export default function HookForm() {
                 isReadOnly
                 value={avroValue}
               ></Textarea>
-              <Button onClick={onCopy} ml={2}>
-                {hasCopied ? "Copied" : "Copy"}
+              <Button onClick={clipboardValue.onCopy} ml={2}>
+                {clipboardValue.hasCopied ? "Copied" : "Copy"}
               </Button>
             </TabPanel>
             <TabPanel>
@@ -230,8 +234,8 @@ export default function HookForm() {
                 isReadOnly
                 value={avroKeySchema}
               ></Textarea>
-              <Button onClick={onCopy} ml={2}>
-                {hasCopied ? "Copied" : "Copy"}
+              <Button onClick={clipboardKeySchema.onCopy} ml={2}>
+                {clipboardKeySchema.hasCopied ? "Copied" : "Copy"}
               </Button>
             </TabPanel>
             <TabPanel>
@@ -241,8 +245,8 @@ export default function HookForm() {
                 isReadOnly
                 value={avroKey}
               ></Textarea>
-              <Button onClick={onCopy} ml={2}>
-                {hasCopied ? "Copied" : "Copy"}
+              <Button onClick={clipboardKey.onCopy} ml={2}>
+                {clipboardKey.hasCopied ? "Copied" : "Copy"}
               </Button>
             </TabPanel>
           </TabPanels>
