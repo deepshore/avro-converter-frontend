@@ -39,6 +39,7 @@ jobs:
           user_name: 'selamanse'
           pull_request_reviewers: 'ts-nextevolution'
           pr_title: 'avro-converter change'
+          commit_msg: 'avro-converter change'
       
 
       
