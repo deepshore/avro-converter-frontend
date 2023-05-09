@@ -1,0 +1,44 @@
+name: build
+on: [push, pull_request,workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - name: Upload static files from build
+        uses: actions/upload-artifact@v3
+        with:
+          name: static-files
+          path: build/
+
+      # create a pull request with the static files main.* form the js folder and main.* from the css folder 
+      # on the project https://github.com/deepshore/deepshore-website/ based on the main branch and the corresponding folders
+      # themes/deepshore/js/ and themes/deepshore/css/ on the project
+      - name: prepare files for pr
+        run: |
+          mkdir -p themes/deepshore/js
+          cp -r build/static/js/main.* themes/deepshore/js/ 
+          cp -r build/static/css/main.* themes/deepshore/js/
+      - name: Create pull request
+        uses: car-on-sale/action-pull-request-another-repo@version
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          source_folder: 'themes/deepshore/js'
+          destination_repo: 'deepshore/deepshore-website'
+          destination_folder: 'themes/deepshore/js'
+          destination_base_branch: 'main'
+          destination_head_branch: 'branch-name'
+          user_email: 'optimusprime@deepshore.de'
+          user_name: 'selamanse'
+          pull_request_reviewers: 'ts-nextevolution'
+          pr_title: 'avro-converter change'
+      
+
+      
