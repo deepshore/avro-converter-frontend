@@ -35,7 +35,7 @@ export default function HookForm() {
     reset
   } = useForm();
 
-  const apiUrl = "/avroconverterbackend/connect/xsd";
+  const apiUrl = "/avroconverterbackend";
   const [avroValueSchema, setAvroValueSchema] = useState();
   const [avroValue, setAvroValue] = useState();
   const [avroKeySchema, setAvroKeySchema] = useState();
