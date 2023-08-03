@@ -10,6 +10,7 @@
     "@emotion/styled": "11.11.0",
     "axios": "1.4.0",
     "emotion-theming": "11.0.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "10.12.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -23,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-dev": "NODE_ENV=ddevelopment node build && gulp",
+    "build-dev": "NODE_ENV=development react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

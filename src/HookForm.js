@@ -25,12 +25,14 @@ import axios from "axios";
 import React, { useState } from "react";
 import { FormLabel, FormControl, Button } from "@chakra-ui/react";
 import { xsdValue, xmlValue, xpath } from "./DemoData";
+import * as FileSaver from 'file-saver'
 
 export default function HookForm() {
   const {
     handleSubmit,
     register,
     setValue,
+    getValues,
     formState: { errors, isSubmitting },
     reset
   } = useForm();
@@ -83,6 +85,32 @@ export default function HookForm() {
     console.log("no error...");
   }
 
+  const downloadJava = async (event) => {
+    event.preventDefault();
+
+    try {
+      const res = await axios.post(`${apiUrl}/connect/java`, getValues(), {
+        validateStatus: () => true,
+        responseType: 'blob'
+      });
+
+      const suggestedFileName = res.headers['filename'];
+      const effectiveFileName = (suggestedFileName === undefined
+        ? "java.zip"
+        : suggestedFileName);
+
+      console.log(`Received header ['filename']: ${suggestedFileName}, effective fileName: ${effectiveFileName}`);
+
+      FileSaver.saveAs(res.data, effectiveFileName)
+
+    } catch (error) {
+      console.log(error);
+      setConvertError(error);
+      onOpen();
+      return;
+    }
+  };
+
   const handleClick = (event) => {
     event.preventDefault();
 
@@ -132,6 +160,7 @@ export default function HookForm() {
               id="xsd"
               value={xsd}
               placeholder="paste xsd content here"
+              onChange={e => setXsd(e.target.value)}
               {...register("xsd", {
                 required: "This is required",
                 minLength: { value: 20, message: "Minimum length should be 4" }
@@ -181,7 +210,11 @@ export default function HookForm() {
             isLoading={isSubmitting}
             type="submit"
           >
-            Submit
+            Convert
+          </Button>
+          &nbsp;&nbsp;
+          <Button mt={4} colorScheme="green" onClick={downloadJava}>
+            Download Java Code
           </Button>
           &nbsp;&nbsp;
           <Button mt={4} colorScheme="green" onClick={handleClick}>
